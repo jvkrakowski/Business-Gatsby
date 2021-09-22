@@ -1,0 +1,73 @@
+/* 
+* TABLE OF CONTENTS 
+* Font Imports
+* Typography
+* Paragraph
+* Typography Alignments
+*/
+
+
+
+/* Font Imports */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+/* Typography */
+
+body {
+    font-family: 'Open Sans';
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    margin: 0;
+}
+
+h2::after {
+    display: block;
+    border-bottom: 2px solid black;
+    content: " ";
+    width: 85px;
+    margin-top: 10px;
+}
+
+blockquote {
+    border-left: 2px solid grey;
+    padding-left: 1rem;
+    font-size: 1.5rem;
+    height: auto;
+}
+
+span.credit {
+    clear: both; 
+    display: block;
+    text-align: right; 
+    font-size: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Paragraph */ 
+
+p.first-paragraph {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+.first-letter {
+    float: left;
+  font-size: 5rem;
+  line-height: 60px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+}
+
+/* Typography Alignments */ 
+
+.center {
+    text-align: center;
+}

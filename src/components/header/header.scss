@@ -1,0 +1,46 @@
+
+header {
+	min-height: 100px;
+	box-sizing: border-box;
+	a {
+		color: black;
+	}
+	h1.site-title {
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 1.2em;
+		line-height: 1.5em;
+		margin: 0;
+	}
+
+	.logo {
+		max-height: 23px;
+		width: auto !important;
+		float: left;
+		margin-right: 5px;
+	  }
+	
+}
+
+.right {
+	text-align: right;
+}
+nav {
+	margin-top: 0;
+	height: auto;
+	text-align: right;
+	a {
+		margin: 0;
+		margin-left: .5rem;
+		padding: 0;
+		font-weight: normal;
+		color: black;
+	}
+
+
+}
+.container {
+	nav {
+		margin: 0;
+		margin-left: -1rem;
+	}
+}

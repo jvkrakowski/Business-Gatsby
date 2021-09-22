@@ -1,0 +1,66 @@
+/* 
+* TABLE OF CONTENTS 
+* Icons
+*/
+
+
+/* Icons */
+
+footer {
+  border-top: 2px solid black;
+  max-width: 902px;
+  margin: 0 auto;
+  margin-top: 15px;
+
+  h3 {
+    margin: 0;
+  }
+
+  #footer {
+    border-bottom: 2px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .social {
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-end; 
+    align-items: center;
+    float: right;
+    max-width: 300px;
+    margin: 0;
+    padding: 0;
+
+    svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+  }
+
+
+  .logo-area {
+    float: left;
+    width: 300px;
+
+  }
+
+  .footer-logo {
+    float: left;
+    max-height: 20px;
+    margin-right: 5px;
+  }
+
+  .footer-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    display: block;
+    position: relative;
+    top: 2px;
+  }
+
+}
