@@ -7,5 +7,4 @@ A PWA (progressive web application) built with Gatsby to showcase key developer 
 - Integration with REST API
 - E-Commerce with SnipCart
 - Authentication with Okta.
-- Push Notification with Service Worker
 - Commenting with Disqus
