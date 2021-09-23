@@ -9,6 +9,7 @@ module.exports = {
   },
   plugins: [
     "gatsby-plugin-sass",
+    "disqus-react", 
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
@@ -18,8 +19,8 @@ module.exports = {
     {
       resolve: "gatsby-plugin-manifest",
       options: {
-        name: `9 Realms Media`,
-        short_name: `9 Realms`,
+        name: `Business Gatsby`,
+        short_name: `B-Gatsby`,
         start_url: `/`,
         background_color: `#403434`,
         theme_color: `#0d0d0d`,

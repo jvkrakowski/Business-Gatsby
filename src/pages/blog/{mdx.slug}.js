@@ -7,9 +7,16 @@ import PropTypes from "prop-types"
 
 // import TagDecorator from '../../components/link-tag/link-tag'
 
+import { DiscussionEmbed } from "disqus-react"
+
 import "../../styles/blog.scss"
 
-const BlogPost = ( { data} ) => {
+const BlogPost = ( { data, slug } ) => {
+
+  const disqusConfig = {
+    shortname: process.env.GATSBY_DISQUS_NAME,
+    config: { identifier: slug },
+  }
 
   return (
    
@@ -28,6 +35,9 @@ const BlogPost = ( { data} ) => {
             <MDXRenderer>
               {data.mdx.body}
             </MDXRenderer>
+
+            <DiscussionEmbed { ...disqusConfig } />
+
           </div>
         </div>
       </div> 

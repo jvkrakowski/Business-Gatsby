@@ -1,40 +1,51 @@
 import React from "react"
 import PropTypes from "prop-types"
 import loader, { PageResourceStatus } from "./loader"
-import { maybeGetBrowserRedirect } from "./redirect-utils.js"
+import redirects from "./redirects.json"
 import { apiRunner } from "./api-runner-browser"
 import emitter from "./emitter"
 import { RouteAnnouncerProps } from "./route-announcer-props"
-import { navigate as reachNavigate } from "@gatsbyjs/reach-router"
-import { globalHistory } from "@gatsbyjs/reach-router/lib/history"
+import { navigate as reachNavigate } from "@reach/router"
+import { globalHistory } from "@reach/router/lib/history"
 import { parsePath } from "gatsby-link"
 
+// Convert to a map for faster lookup in maybeRedirect()
+
+const redirectMap = new Map()
+const redirectIgnoreCaseMap = new Map()
+
+redirects.forEach(redirect => {
+  if (redirect.ignoreCase) {
+    redirectIgnoreCaseMap.set(redirect.fromPath, redirect)
+  } else {
+    redirectMap.set(redirect.fromPath, redirect)
+  }
+})
+
 function maybeRedirect(pathname) {
-  const redirect = maybeGetBrowserRedirect(pathname)
-  const { hash, search } = window.location
+  let redirect = redirectMap.get(pathname)
+  if (!redirect) {
+    redirect = redirectIgnoreCaseMap.get(pathname.toLowerCase())
+  }
 
   if (redirect != null) {
-    window.___replace(redirect.toPath + search + hash)
+    if (process.env.NODE_ENV !== `production`) {
+      if (!loader.isPageNotFound(pathname)) {
+        console.error(
+          `The route "${pathname}" matches both a page and a redirect; this is probably not intentional.`
+        )
+      }
+    }
+
+    window.___replace(redirect.toPath)
     return true
   } else {
     return false
   }
 }
 
-// Catch unhandled chunk loading errors and force a restart of the app.
-let nextRoute = ``
-
-window.addEventListener(`unhandledrejection`, event => {
-  if (/loading chunk \d* failed./i.test(event.reason)) {
-    if (nextRoute) {
-      window.location.pathname = nextRoute
-    }
-  }
-})
-
 const onPreRouteUpdate = (location, prevLocation) => {
   if (!maybeRedirect(location.pathname)) {
-    nextRoute = location.pathname
     apiRunner(`onPreRouteUpdate`, { location, prevLocation })
   }
 }
@@ -60,19 +71,23 @@ const navigate = (to, options = {}) => {
     return
   }
 
-  const { pathname, search, hash } = parsePath(to)
-  const redirect = maybeGetBrowserRedirect(pathname)
+  let { pathname } = parsePath(to)
+  let redirect = redirectMap.get(pathname)
+  if (!redirect) {
+    redirect = redirectIgnoreCaseMap.get(pathname.toLowerCase())
+  }
 
   // If we're redirecting, just replace the passed in pathname
   // to the one we want to redirect to.
   if (redirect) {
-    to = redirect.toPath + search + hash
+    to = redirect.toPath
+    pathname = parsePath(to).pathname
   }
 
   // If we had a service worker update, no matter the path, reload window and
   // reset the pathname whitelist
   if (window.___swUpdated) {
-    window.location = pathname + search + hash
+    window.location = pathname
     return
   }
 
@@ -102,10 +117,6 @@ const navigate = (to, options = {}) => {
     // If the loaded page has a different compilation hash to the
     // window, then a rebuild has occurred on the server. Reload.
     if (process.env.NODE_ENV === `production` && pageResources) {
-      // window.___webpackCompilationHash gets set in production-app.js after navigationInit() is called
-      // So on a direct visit of a page with a browser redirect this check is truthy and thus the codepath is hit
-      // While the resource actually exists, but only too late
-      // TODO: This should probably be fixed by setting ___webpackCompilationHash before navigationInit() is called
       if (
         pageResources.page.webpackCompilationHash !==
         window.___webpackCompilationHash
@@ -121,7 +132,7 @@ const navigate = (to, options = {}) => {
           })
         }
 
-        window.location = pathname + search + hash
+        window.location = pathname
       }
     }
     reachNavigate(to, options)
@@ -138,8 +149,6 @@ function shouldUpdateScroll(prevRouterProps, { location }) {
     routerProps: { location },
     getSavedScrollPosition: args => [
       0,
-      // FIXME this is actually a big code smell, we should fix this
-      // eslint-disable-next-line @babel/no-invalid-this
       this._stateStorage.read(args, args.key),
     ],
   })
@@ -259,4 +268,4 @@ RouteUpdates.propTypes = {
   location: PropTypes.object.isRequired,
 }
 
-export { init, shouldUpdateScroll, RouteUpdates, maybeGetBrowserRedirect }
+export { init, shouldUpdateScroll, RouteUpdates }
