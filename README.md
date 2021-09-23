@@ -7,10 +7,10 @@ I added [Tinker](https://github.com/jvkrakowski/Tinker), [Ask](https://github.co
 ## Changes 
 
 - Push Notifications Implemented (Sept 23rd 2021)
+- Implemented Comments with Disqus (Sept 23rd 2021)
 
 ## Coming Soon
 
 - Integration with REST API
 - E-Commerce with SnipCart
 - Authentication with Okta.
-- Commenting with Disqus
