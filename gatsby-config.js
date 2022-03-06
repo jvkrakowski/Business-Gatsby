@@ -12,6 +12,7 @@ module.exports = {
     "disqus-react", 
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
+    "gatsby-plugin-page-creator",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-lodash",
 
@@ -73,5 +74,27 @@ module.exports = {
         path: `${__dirname}/src/pages/`,
       },
     },
+
+    {
+      resolve: `gatsby-plugin-page-creator`,
+      options: {
+        path: `${__dirname}/src/blog/pages`, 
+      },
+    },
+
+    {
+      resolve: `gatsby-plugin-page-creator`,
+      options: {
+        path: `${__dirname}/src/announcements/pages`, 
+      },
+    },
+
+    {
+      resolve: `gatsby-plugin-page-creator`,
+      options: {
+        path: `${__dirname}/src/pages`, 
+      },
+    },
+
   ],
 };
